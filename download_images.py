@@ -34,13 +34,12 @@ def setup_database():
         id INTEGER PRIMARY KEY,
         title TEXT,
         handle TEXT,
-        price TEXT,
+        price INTEGER,  -- Store price as integer cents
         vendor TEXT,
         url TEXT,
         local_image_path TEXT,
         original_image_url TEXT,
-        labels TEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        labels TEXT
     )
     ''')
     
@@ -51,7 +50,6 @@ def setup_database():
         product_id INTEGER,
         image_url TEXT,
         local_path TEXT,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (product_id) REFERENCES products (id)
     )
     ''')
@@ -113,6 +111,9 @@ def process_products(json_file, conn, cursor):
             # Store labels as a JSON string
             labels = json.dumps([product['label']] if 'label' in product else [])
             
+            # Convert price to integer cents
+            price = product['price'] if product.get('price') else 0
+            
             # Insert product into database
             cursor.execute('''
             INSERT INTO products (id, title, handle, price, vendor, url, labels)
@@ -121,7 +122,7 @@ def process_products(json_file, conn, cursor):
                 product['id'],
                 product['title'],
                 product['handle'],
-                product['price'],
+                price,  # Store as integer cents
                 product['vendor'],
                 product['url'],
                 labels

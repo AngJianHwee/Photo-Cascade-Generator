@@ -182,13 +182,13 @@
                 <ul class="pagination">
                     <!-- First page -->
                     <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
-                        <a class="page-link" href="?page=1" aria-label="First">
+                        <a class="page-link" href="?page=1{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="First">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                     <!-- Previous page -->
                     <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
-                        <a class="page-link" href="?page={{ current_page - 1 }}" aria-label="Previous">
+                        <a class="page-link" href="?page={{ current_page - 1 }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="Previous">
                             <span aria-hidden="true">&lsaquo;</span>
                         </a>
                     </li>
@@ -197,18 +197,18 @@
                         {% if page_num == current_page %}
                             <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
                         {% else %}
-                            <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ page_num }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}">{{ page_num }}</a></li>
                         {% endif %}
                     {% endfor %}
                     <!-- Next page -->
                     <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
-                        <a class="page-link" href="?page={{ current_page + 1 }}" aria-label="Next">
+                        <a class="page-link" href="?page={{ current_page + 1 }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="Next">
                             <span aria-hidden="true">&rsaquo;</span>
                         </a>
                     </li>
                     <!-- Last page -->
                     <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
-                        <a class="page-link" href="?page={{ total_pages }}" aria-label="Last">
+                        <a class="page-link" href="?page={{ total_pages }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="Last">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -218,26 +218,13 @@
 
         <div class="sort-controls">
             <span class="text-muted">Sort by:</span>
-            <a href="?sort=date&order={% if current_sort == 'date' and current_order == 'desc' %}asc{% else %}desc{% endif %}" 
-               class="sort-btn {% if current_sort == 'date' %}active{% endif %}">
-                <i class="bi bi-sort-numeric-down"></i> Date
-                {% if current_sort == 'date' %}
-                <i class="bi bi-arrow-{% if current_order == 'desc' %}down{% else %}up{% endif %} sort-icon"></i>
-                {% endif %}
-            </a>
             <a href="?sort=name&order={% if current_sort == 'name' and current_order == 'desc' %}asc{% else %}desc{% endif %}" 
                class="sort-btn {% if current_sort == 'name' %}active{% endif %}">
-                <i class="bi bi-sort-alpha-down"></i> Name
-                {% if current_sort == 'name' %}
-                <i class="bi bi-arrow-{% if current_order == 'desc' %}down{% else %}up{% endif %} sort-icon"></i>
-                {% endif %}
+                <i class="bi bi-sort-{% if current_sort == 'name' and current_order == 'desc' %}alpha-down{% else %}alpha-up{% endif %}"></i> Name
             </a>
             <a href="?sort=price&order={% if current_sort == 'price' and current_order == 'desc' %}asc{% else %}desc{% endif %}" 
                class="sort-btn {% if current_sort == 'price' %}active{% endif %}">
-                <i class="bi bi-currency-dollar"></i> Price
-                {% if current_sort == 'price' %}
-                <i class="bi bi-arrow-{% if current_order == 'desc' %}down{% else %}up{% endif %} sort-icon"></i>
-                {% endif %}
+                <i class="bi bi-sort-{% if current_sort == 'price' and current_order == 'desc' %}numeric-down{% else %}numeric-up{% endif %}"></i> Price
             </a>
             <a href="/books" 
                class="sort-btn {% if is_default_state %}disabled{% endif %}">
@@ -259,7 +246,7 @@
                         </div>
                         {% endif %}
                         <h5 class="card-title book-title">{{ book.title }}</h5>
-                        <p class="card-text book-price">RM{{ "%.2f"|format(book.price|float / 100) }}</p>
+                        <p class="card-text book-price">RM{{ "%.2f"|format(book.price / 100.0) }}</p>
                         <p class="card-text book-vendor">Vendor: {{ book.vendor }}</p>
                         <a href="{{ book.url }}" target="_blank" class="original-link">
                             <i class="bi bi-box-arrow-up-right"></i> View on Original Website
@@ -277,13 +264,13 @@
             <ul class="pagination">
                 <!-- First page -->
                 <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
-                    <a class="page-link" href="?page=1" aria-label="First">
+                    <a class="page-link" href="?page=1{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="First">
                         <span aria-hidden="true">&laquo;</span>
                     </a>
                 </li>
                 <!-- Previous page -->
                 <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
-                    <a class="page-link" href="?page={{ current_page - 1 }}" aria-label="Previous">
+                    <a class="page-link" href="?page={{ current_page - 1 }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="Previous">
                         <span aria-hidden="true">&lsaquo;</span>
                     </a>
                 </li>
@@ -292,18 +279,18 @@
                     {% if page_num == current_page %}
                         <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
                     {% else %}
-                        <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+                        <li class="page-item"><a class="page-link" href="?page={{ page_num }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}">{{ page_num }}</a></li>
                     {% endif %}
                 {% endfor %}
                 <!-- Next page -->
                 <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
-                    <a class="page-link" href="?page={{ current_page + 1 }}" aria-label="Next">
+                    <a class="page-link" href="?page={{ current_page + 1 }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="Next">
                         <span aria-hidden="true">&rsaquo;</span>
                     </a>
                 </li>
                 <!-- Last page -->
                 <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
-                    <a class="page-link" href="?page={{ total_pages }}" aria-label="Last">
+                    <a class="page-link" href="?page={{ total_pages }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="Last">
                         <span aria-hidden="true">&raquo;</span>
                     </a>
                 </li>

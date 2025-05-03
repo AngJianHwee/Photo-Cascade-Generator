@@ -55,10 +55,9 @@ def books():
     
     valid_sorts = {
         'name': 'title',
-        'date': 'created_at',
         'price': 'price'
     }
-    sort_column = valid_sorts.get(sort_by, 'created_at')
+    sort_column = valid_sorts.get(sort_by, 'title')
     
     # Connect to database
     conn = sqlite3.connect('mph_images.db')
