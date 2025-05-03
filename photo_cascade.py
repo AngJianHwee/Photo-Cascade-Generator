@@ -6,6 +6,7 @@ from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tqdm import tqdm
 import time
+from config import Config
 
 def load_reference_image(reference_path):
     """Load and resize the reference image"""
@@ -14,8 +15,11 @@ def load_reference_image(reference_path):
         raise ValueError(f"Could not load reference image: {reference_path}")
     return img
 
-def get_product_images(db_path):
+def get_product_images(db_path=None):
     """Get all product images from the database"""
+    if db_path is None:
+        db_path = Config.DATABASE_PATH
+    
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
     

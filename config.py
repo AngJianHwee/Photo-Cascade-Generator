@@ -23,8 +23,23 @@ class Config:
     HOST = os.getenv('HOST', '0.0.0.0')
     PORT = int(os.getenv('PORT', 5000))
 
+    # Print configuration
+    @classmethod
+    def print_config(cls):
+        print("\nCurrent Configuration:")
+        print(f"FLASK_ENV: {cls.ENV}")
+        print(f"FLASK_DEBUG: {cls.DEBUG}")
+        print(f"DATABASE_PATH: {cls.DATABASE_PATH}")
+        print(f"IMAGES_DIR: {cls.IMAGES_DIR}")
+        print(f"UPLOAD_DIR: {cls.UPLOAD_DIR}")
+        print(f"HOST: {cls.HOST}")
+        print(f"PORT: {cls.PORT}\n")
+
     # Ensure directories exist
     @staticmethod
     def init_app(app):
         os.makedirs(Config.IMAGES_DIR, exist_ok=True)
-        os.makedirs(Config.UPLOAD_DIR, exist_ok=True) 
+        os.makedirs(Config.UPLOAD_DIR, exist_ok=True)
+
+# Print configuration when module is loaded
+# Config.print_config()
