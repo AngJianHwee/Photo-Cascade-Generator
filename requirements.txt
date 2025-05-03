@@ -1,5 +1,7 @@
-flask==2.3.3
-flask-sqlalchemy
+Flask==3.0.0
+Flask-SQLAlchemy==3.1.1
+Pillow==10.1.0
+python-dotenv==1.0.0
 opencv-python==4.9.0.80
 numpy==1.26.4
 werkzeug==2.3.7
@@ -8,6 +10,5 @@ watchdog==2.3
 # lxml
 # opencv-python
 # numpy
-pillow
 requests
 beautifulsoup4

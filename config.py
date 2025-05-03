@@ -1,25 +1,30 @@
 import os
-from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from config.env
+load_dotenv()
 
 class Config:
     # Flask settings
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-key-please-change-in-production'
-    
+    SECRET_KEY = os.getenv('FLASK_SECRET_KEY', 'dev-key-please-change-in-production')
+    ENV = os.getenv('FLASK_ENV', 'development')
+    DEBUG = os.getenv('FLASK_DEBUG', '1') == '1'
+
+    # File paths
+    DATABASE_PATH = os.getenv('DATABASE_PATH', 'mph_images.db')
+    IMAGES_DIR = os.getenv('IMAGES_DIR', 'images')
+    UPLOAD_DIR = os.getenv('UPLOAD_DIR', 'uploads')
+
     # File upload settings
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
-    ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
-    
-    # Directory settings
-    BASE_DIR = Path(__file__).parent
-    IMAGES_DIR = BASE_DIR / 'images'
-    UPLOAD_DIR = BASE_DIR / 'uploads'
-    
-    # Database settings
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + str(BASE_DIR / 'mph_images.db')
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-    
+    MAX_CONTENT_LENGTH = int(os.getenv('MAX_CONTENT_LENGTH', 16777216))  # 16MB in bytes
+    ALLOWED_EXTENSIONS = set(os.getenv('ALLOWED_EXTENSIONS', 'png,jpg,jpeg,webp').split(','))
+
+    # Server settings
+    HOST = os.getenv('HOST', '0.0.0.0')
+    PORT = int(os.getenv('PORT', 5000))
+
+    # Ensure directories exist
     @staticmethod
     def init_app(app):
-        # Ensure directories exist
         os.makedirs(Config.IMAGES_DIR, exist_ok=True)
         os.makedirs(Config.UPLOAD_DIR, exist_ok=True) 
