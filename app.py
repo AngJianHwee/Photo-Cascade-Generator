@@ -135,6 +135,7 @@ def create_app(config_class=Config):
             # Get parameters from request
             horizontal_grid_size = int(request.form.get('horizontal_grid_size', 40))
             overlap = float(request.form.get('overlap', 0))
+            original_filename = request.form.get('original_filename', 'photo')
             
             try:
                 # Load reference image from bytes
@@ -185,7 +186,7 @@ def create_app(config_class=Config):
                     output_bytes,
                     mimetype='image/jpeg',
                     as_attachment=True,
-                    download_name='photo_cascade.jpg'
+                    download_name=f'{original_filename}_cascade.jpg'
                 )
                 
             except Exception as e:

@@ -167,6 +167,29 @@
             cover images from MPH Bookstores' collection. The application uses advanced computer vision techniques
             to match and arrange book covers in a way that recreates your uploaded image.</p>
         </p>
+
+        <!-- Example Section -->
+        <!-- <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="/static/example.jpg" class="card-img-top" alt="Example Input Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Original Image</h5>
+                        <p class="card-text">An example input image with good contrast and clear subject.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <img src="/static/example_cascade.jpg" class="card-img-top" alt="Example Cascade Result">
+                    <div class="card-body">
+                        <h5 class="card-title">Generated Cascade</h5>
+                        <p class="card-text">The resulting photo cascade created using book covers from our collection.</p>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
         <div class="form-container">
             <form id="cascadeForm" enctype="multipart/form-data">
                 <div class="row">
@@ -220,13 +243,15 @@
                 <div class="col-md-6">
                     <div class="image-wrapper">
                         <h3 class="mb-3">Reference Image</h3>
-                        <img id="previewImage" alt="Preview" class="img-fluid">
+                        <img id="previewImage" src="/static/example.png" alt="Preview" class="img-fluid" style="display: block;">
+                        <p id="referenceFilename" class="mt-2 text-muted" style="display: none;"></p>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="image-wrapper">
                         <h3 class="mb-3">Generated Cascade</h3>
-                        <img id="resultImage" alt="Result" class="img-fluid">
+                        <img id="resultImage" src="/static/example_cascade.jpg" alt="Result" class="img-fluid" style="display: block;">
+                        <p id="resultFilename" class="mt-2 text-muted" style="display: none;"></p>
                     </div>
                 </div>
             </div>
@@ -278,8 +303,11 @@
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     const preview = document.getElementById('previewImage');
+                    const filenameDisplay = document.getElementById('referenceFilename');
                     preview.src = e.target.result;
                     preview.style.display = 'block';
+                    filenameDisplay.textContent = file.name;
+                    filenameDisplay.style.display = 'block';
                 }
                 reader.readAsDataURL(file);
             }
@@ -307,6 +335,10 @@
             const progressContainer = document.getElementById('progressContainer');
             const resultImage = document.getElementById('resultImage');
             const downloadBtn = document.getElementById('downloadBtn');
+
+            // Get the original filename without extension
+            const originalFilename = document.getElementById('reference_image').files[0].name.replace(/\.[^/.]+$/, "");
+            formData.append('original_filename', originalFilename);
 
             loading.style.display = 'block';
             progressContainer.style.display = 'block';
@@ -342,11 +374,16 @@
                     resultImage.style.display = 'block';
                     downloadBtn.classList.add('active');
 
+                    // Update result filename display
+                    const resultFilename = document.getElementById('resultFilename');
+                    resultFilename.textContent = originalFilename + '_cascade.jpg';
+                    resultFilename.style.display = 'block';
+
                     // Store the blob URL for download
                     downloadBtn.onclick = function () {
                         const a = document.createElement('a');
                         a.href = url;
-                        a.download = 'photo_cascade.jpg';
+                        a.download = originalFilename + '_cascade.jpg';
                         document.body.appendChild(a);
                         a.click();
                         window.URL.revokeObjectURL(url);
