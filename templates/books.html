@@ -30,6 +30,8 @@
             flex-direction: column;
             width: 100%;
             background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
         }
         .book-card:hover {
             transform: translateY(-5px);
@@ -52,28 +54,39 @@
             background-color: #f8f9fa;
             padding: 1rem;
             width: 100%;
+            transition: transform 0.3s ease;
+        }
+        .book-card:hover .book-image {
+            transform: scale(1.05);
         }
         .card-body {
             flex: 1;
             display: flex;
             flex-direction: column;
+            padding: 1.5rem;
         }
         .book-title {
             font-weight: 600;
             color: #212529;
             transition: color 0.3s ease;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
         }
         .book-price {
             font-weight: 600;
             color: #198754;
             transition: color 0.3s ease;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
         }
         .book-vendor {
             color: #6c757d;
             font-size: 0.9rem;
+            margin-bottom: 1rem;
         }
         .book-labels {
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
@@ -81,10 +94,11 @@
         .book-label {
             background-color: #e9ecef;
             color: #495057;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
             font-size: 0.8rem;
             transition: all 0.3s ease;
+            font-weight: 500;
         }
         .book-card:hover .book-label {
             background-color: #dee2e6;
@@ -93,21 +107,32 @@
         .nav-link {
             color: #0d6efd;
             font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
         }
         .nav-link:hover {
             color: #0b5ed7;
+            background-color: #f8f9fa;
         }
         .original-link {
             color: #0d6efd;
             text-decoration: none;
             font-size: 0.9rem;
             margin-top: auto;
-            transition: all 0.3s ease, font-weight 0.3s ease;
-            display: inline-block;
-            font-weight: 400;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
         }
         .original-link:hover {
-            font-weight: 600;
+            color: #0b5ed7;
+            transform: translateX(5px);
         }
         .row {
             display: flex;
@@ -118,28 +143,32 @@
             display: flex;
             padding: 1rem;
         }
-        .book-label:hover {
-            background-color: #dee2e6;
-            color: #212529;
-        }
         .sort-controls {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             display: flex;
             gap: 1rem;
             align-items: center;
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.5rem;
         }
         .sort-btn {
             padding: 0.5rem 1rem;
             border: 1px solid #dee2e6;
-            border-radius: 0.25rem;
+            border-radius: 0.5rem;
             background-color: white;
             color: #495057;
             text-decoration: none;
             transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
         }
         .sort-btn:hover {
             background-color: #f8f9fa;
             border-color: #adb5bd;
+            transform: translateY(-2px);
         }
         .sort-btn.active {
             background-color: #0d6efd;
@@ -162,22 +191,62 @@
             background-color: #bb2d3b;
             border-color: #b02a37;
         }
-        .sort-icon {
-            margin-left: 0.25rem;
+        .page-header {
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #f8f9fa;
+        }
+        .page-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #212529;
+            margin-bottom: 0.25rem;
+        }
+        .page-subtitle {
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+        .pagination {
+            margin: 1rem 0;
+        }
+        .page-link {
+            padding: 0.5rem 1rem;
+            color: #0d6efd;
+            border-radius: 0.5rem;
+            margin: 0 0.25rem;
+            transition: all 0.3s ease;
+        }
+        .page-link:hover {
+            background-color: #f8f9fa;
+            color: #0b5ed7;
+        }
+        .page-item.active .page-link {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .page-item.disabled .page-link {
+            color: #adb5bd;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
     <div class="main-container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>Books Used in Photo Cascade</h1>
-            <a href="/" class="nav-link">
-                <i class="bi bi-arrow-left"></i> Back to Generator
-            </a>
+        <div class="page-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="page-title"><i class="bi bi-book"></i> Books Used in Photo Cascade</h1>
+                    <p class="page-subtitle">Explore our curated collection of books used to create unique photo mosaics</p>
+                </div>
+                <a href="/" class="nav-link">
+                    <i class="bi bi-arrow-left"></i> Back to Generator <i class="bi bi-grid-3x3-gap-fill"></i>
+                </a>
+            </div>
         </div>
 
         <!-- Pagination (top) -->
-        <div class="d-flex justify-content-center mt-4">
+        <div class="d-flex justify-content-center">
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <!-- First page -->
@@ -228,7 +297,7 @@
             </a>
             <a href="/books" 
                class="sort-btn {% if is_default_state %}disabled{% endif %}">
-                <i class="bi bi-x-circle"></i> Clear
+                <i class="bi bi-x-circle"></i> Clear Filters
             </a>
         </div>
 
@@ -249,53 +318,53 @@
                         <p class="card-text book-price">RM{{ "%.2f"|format(book.price / 100.0) }}</p>
                         <p class="card-text book-vendor">Vendor: {{ book.vendor }}</p>
                         <a href="{{ book.url }}" target="_blank" class="original-link">
-                            <i class="bi bi-box-arrow-up-right"></i> View on Original Website
+                            View on Original Website <i class="bi bi-box-arrow-up-right"></i>
                         </a>
                     </div>
                 </div>
             </div>
             {% endfor %}
         </div>
-    </div>
 
-    <!-- Pagination (bottom) -->
-    <div class="d-flex justify-content-center mt-4">
-        <nav aria-label="Page navigation">
-            <ul class="pagination">
-                <!-- First page -->
-                <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
-                    <a class="page-link" href="?page=1{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="First">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <!-- Previous page -->
-                <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
-                    <a class="page-link" href="?page={{ current_page - 1 }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="Previous">
-                        <span aria-hidden="true">&lsaquo;</span>
-                    </a>
-                </li>
-                <!-- Page numbers -->
-                {% for page_num in range(1, total_pages + 1) %}
-                    {% if page_num == current_page %}
-                        <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
-                    {% else %}
-                        <li class="page-item"><a class="page-link" href="?page={{ page_num }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}">{{ page_num }}</a></li>
-                    {% endif %}
-                {% endfor %}
-                <!-- Next page -->
-                <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
-                    <a class="page-link" href="?page={{ current_page + 1 }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="Next">
-                        <span aria-hidden="true">&rsaquo;</span>
-                    </a>
-                </li>
-                <!-- Last page -->
-                <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
-                    <a class="page-link" href="?page={{ total_pages }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="Last">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <!-- Pagination (bottom) -->
+        <div class="d-flex justify-content-center">
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <!-- First page -->
+                    <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
+                        <a class="page-link" href="?page=1{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="First">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <!-- Previous page -->
+                    <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
+                        <a class="page-link" href="?page={{ current_page - 1 }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="Previous">
+                            <span aria-hidden="true">&lsaquo;</span>
+                        </a>
+                    </li>
+                    <!-- Page numbers -->
+                    {% for page_num in range(1, total_pages + 1) %}
+                        {% if page_num == current_page %}
+                            <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ page_num }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}">{{ page_num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    <!-- Next page -->
+                    <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
+                        <a class="page-link" href="?page={{ current_page + 1 }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="Next">
+                            <span aria-hidden="true">&rsaquo;</span>
+                        </a>
+                    </li>
+                    <!-- Last page -->
+                    <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
+                        <a class="page-link" href="?page={{ total_pages }}{% if current_sort != 'date' or current_order != 'desc' %}&sort={{ current_sort }}&order={{ current_order }}{% endif %}" aria-label="Last">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 
     <!-- Bootstrap JS Bundle -->
