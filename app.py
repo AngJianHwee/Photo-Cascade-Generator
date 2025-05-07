@@ -83,7 +83,7 @@ def create_app(config_class=Config):
             product_id, title, price, vendor, main_image, url, labels_json = row
             
             # Convert path to URL
-            main_image_url = f'/images/{os.path.basename(main_image)}' if main_image else None
+            main_image_url = f'/public/{os.path.basename(main_image)}' if main_image else None
             
             # Ensure URL is absolute
             if url and not url.startswith('http'):
@@ -111,7 +111,7 @@ def create_app(config_class=Config):
                              current_order=sort_order,
                              is_default_state=is_default_state)
     
-    @app.route('/images/<filename>')
+    @app.route('/public/<filename>')
     def serve_image(filename):
         return send_from_directory(app.config['IMAGES_DIR'], filename)
     

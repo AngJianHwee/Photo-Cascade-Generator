@@ -12,7 +12,7 @@ class Config:
 
     # File paths
     DATABASE_PATH = os.getenv('DATABASE_PATH', 'mph_images.db')
-    IMAGES_DIR = os.getenv('IMAGES_DIR', 'images')
+    IMAGES_DIR = os.getenv('IMAGES_DIR', 'public')
     UPLOAD_DIR = os.getenv('UPLOAD_DIR', 'uploads')
 
     # File upload settings
